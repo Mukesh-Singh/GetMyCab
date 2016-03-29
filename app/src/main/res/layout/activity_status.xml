@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/back_button_header"
+        android:id="@+id/header"/>
+
+    <WebView
+        android:layout_below="@+id/header"
+        android:id="@+id/status_webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+    </WebView>
+    <TextView
+        android:layout_marginTop="@dimen/dp20"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/dp10"
+        android:textColor="@android:color/holo_red_light"
+        android:id="@+id/status_fail_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="asfadsfasdf"
+        android:layout_below="@+id/status_webView"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/status_progressBar"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>

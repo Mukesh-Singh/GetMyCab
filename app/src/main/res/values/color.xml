@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_header_color">#ffbe00</color>
+    <color name="white">#ffffff</color>
+    <color name="primary">#ffbe00</color>
+    <color name="primary_dark">#ffbe00</color>
+    <color name="accent">#ffbe00</color>
+
+    <color name="light_gray">#aaa</color>
+
+</resources>

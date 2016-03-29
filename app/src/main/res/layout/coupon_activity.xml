@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg">
+
+    <include
+        android:id="@+id/cupan_header"
+        layout="@layout/back_button_header" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/cupon_footer"
+        android:layout_below="@+id/cupan_header"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginRight="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp20"
+        android:paddingBottom="@dimen/dp10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp40"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <EditText
+                    android:id="@+id/coupon_activity_coupon_input"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/dp4"
+                    android:layout_weight="3"
+                    android:background="@drawable/white_round_corner_background"
+                    android:hint="Discount Coupon"
+                    android:padding="@dimen/dp4"
+                    android:inputType="textCapCharacters"
+                    android:singleLine="true" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp4"
+                    android:layout_weight="1"
+                    android:background="@drawable/yellow_rounded_corner_background">
+
+                    <Button
+                        android:id="@+id/coupon_activity_coupon_apply"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Apply" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp18"
+                android:src="@drawable/or" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp40"
+                android:layout_marginTop="@dimen/dp18"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <EditText
+                    android:id="@+id/coupon_activity_referal_input"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/dp4"
+                    android:layout_weight="3"
+                    android:background="@drawable/white_round_corner_background"
+                    android:hint="Referral Code"
+                    android:inputType="textCapCharacters"
+                    android:padding="@dimen/dp4"
+                    android:singleLine="true" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp4"
+                    android:layout_weight="1"
+                    android:background="@drawable/yellow_rounded_corner_background">
+
+                    <Button
+                        android:id="@+id/coupon_activity_referal_apply"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Apply" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/coupon_activity_apply_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp20"
+                android:background="@drawable/button_bg"
+                android:gravity="left|center_vertical"
+                android:padding="@dimen/dp10"
+                android:singleLine="false"
+                android:textColor="@android:color/black"
+                android:text=""
+                android:visibility="gone"
+                android:textAppearance="?android:textAppearanceMedium"/>
+
+
+
+            <RadioButton
+                android:id="@+id/coupon_activity_pay_advance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp20"
+                android:drawablePadding="@dimen/dp60"
+                android:text="@string/advance"
+                android:textColor="@android:color/white"
+                android:checked="true"/>
+
+            <EditText
+                android:id="@+id/coupon_activity_specific_requirment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp100"
+                android:layout_marginTop="@dimen/dp20"
+                android:background="@drawable/white_round_corner_background"
+                android:gravity="top|left"
+                android:hint="Any specific requirement"
+                android:padding="@dimen/dp4"
+                android:singleLine="false" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/cupon_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginRight="@dimen/dp20"
+        android:layout_marginBottom="@dimen/dp20"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp40"
+            android:layout_margin="@dimen/dp4"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/coupon_activity_policy_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/white_round_corner_background" />
+
+            <TextView
+                android:id="@+id/check_termAndCondition"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp20"
+                android:layout_toRightOf="@+id/coupon_activity_policy_checkbox"
+                android:gravity="center_vertical"
+                android:text="I understand and agree with the booking and Cancellation Policy"
+                android:textColor="@android:color/darker_gray"
+                android:background="?android:attr/selectableItemBackground"
+                />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp10"
+            android:background="@drawable/yellow_rounded_corner_background">
+
+            <Button
+                android:id="@+id/coupon_activity_pay_now"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Pay Now" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

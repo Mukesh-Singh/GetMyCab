@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/D:/GetMyCab/ccavenuemobile/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="access_code">Access Code</string>
+    <string name="amount">Amount</string>
+    <string name="app_name">CCAvenue Mobile</string>
+    <string name="cancel_url">Cancel Url</string>
+    <string name="currency">Currency</string>
+    <string name="merchant_id">Merchant Id</string>
+    <string name="pay_button">Pay</string>
+    <string name="redirect_url">Redirect Url</string>
+    <string name="rsa_url">RSA Key Url</string>
+</resources>

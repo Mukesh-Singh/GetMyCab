@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg">
+<!--android:background="@drawable/bg"-->
+    <ImageView
+        android:layout_width="@dimen/dp120"
+        android:layout_height="@dimen/dp120"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp40"
+        android:src="@drawable/profile_logo"/>
+
+    <ImageView
+        android:layout_width="@dimen/dp120"
+        android:layout_height="@dimen/dp80"
+        android:id="@+id/imageView2"
+        android:src="@drawable/phone_no"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true" />
+
+    <include layout="@layout/layout_login_signup_buttons"
+        >
+
+    </include>
+</RelativeLayout>

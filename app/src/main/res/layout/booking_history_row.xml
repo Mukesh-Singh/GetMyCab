@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/dp10">
+
+
+    <TextView
+        android:id="@+id/booking_history_row_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/booking_history_row_amt"
+        android:layout_toStartOf="@+id/booking_history_row_amt"
+        android:singleLine="true"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:text="asdfasdf"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/booking_history_row_amt"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/primary"
+        android:text="asdfadsf"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_above="@+id/textView" />
+
+    <TextView
+        android:id="@+id/booking_history_row_destination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/booking_history_row_date"
+        android:layout_marginTop="@dimen/dp10"
+        android:drawablePadding="@dimen/dp10"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/white"
+        android:text="asdfasdf"
+        android:textSize="14sp"
+        android:layout_toLeftOf="@+id/booking_history_row_amt"
+        android:layout_toStartOf="@+id/booking_history_row_amt" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp1"
+        android:layout_marginTop="@dimen/dp10"
+        android:background="#cccccc"
+        android:layout_below="@+id/booking_history_row_destination"
+        android:id="@+id/textView" />
+
+
+</RelativeLayout>
+
+

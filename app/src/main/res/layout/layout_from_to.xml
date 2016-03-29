@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp70"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:paddingTop="@dimen/dp10"
+        android:paddingBottom="@dimen/dp10"
+        >
+
+
+        <TextView
+            android:id="@+id/addmore_fromcity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/down_arrow_with_bg"
+            android:layout_weight="1"
+            android:hint="From"
+            android:padding="@dimen/dp2"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/dp5"
+            android:maxLines="2"
+
+            />
+        <TextView
+            android:id="@+id/addmore_tocity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/down_arrow_with_bg"
+            android:layout_weight="1"
+            android:text="To"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/dp5"
+            android:padding="@dimen/dp2"
+            android:maxLines="2"
+
+
+
+            />
+
+    </LinearLayout>
+</LinearLayout>

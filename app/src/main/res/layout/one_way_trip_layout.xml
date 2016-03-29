@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/dp20">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp50"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+            <TextView
+                android:id="@+id/one_way_travel_fromcity"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dp5"
+                android:layout_weight="1"
+                android:background="@drawable/button_bg"
+                android:drawableRight="@drawable/map_pin_icon"
+                android:gravity="center"
+                android:text="@string/fromcity"
+                android:padding="@dimen/dp2"
+                android:maxLines="2"
+
+                />
+
+            <TextView
+                android:id="@+id/one_way_travel_tocity"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_weight="1"
+                android:background="@drawable/button_bg"
+                android:drawableRight="@drawable/map_pin_icon1"
+                android:gravity="center"
+                android:padding="@dimen/dp2"
+                android:text="@string/tocity"
+                android:maxLines="2"
+
+
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp50"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+            <TextView
+                android:id="@+id/one_way_travel_date"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dp5"
+                android:layout_weight="1"
+                android:background="@drawable/button_bg"
+                android:drawableRight="@drawable/pickup_time_icon"
+                android:gravity="center"
+                android:padding="@dimen/dp2"
+                android:text="@string/traveldate"
+                android:maxLines="2"
+
+                />
+
+            <TextView
+                android:id="@+id/one_way_travel_time"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_weight="1"
+                android:background="@drawable/button_bg"
+                android:drawableRight="@drawable/time_trevel_icon"
+                android:gravity="center"
+                android:padding="@dimen/dp2"
+                android:text="@string/traveltime"
+                android:maxLines="2"
+
+
+                />
+
+        </LinearLayout>
+
+       <EditText
+            android:id="@+id/one_way_travel_duration"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp50"
+            android:layout_marginTop="@dimen/dp20"
+            android:background="@drawable/button_bg"
+            android:drawableRight="@drawable/trevel_duration_icon"
+            android:gravity="left"
+            android:padding="@dimen/dp10"
+            android:hint="@string/duration"
+            android:maxLines="1"
+           android:inputType="number"
+            android:visibility="visible"
+
+
+            />
+
+    </LinearLayout>
+</LinearLayout>

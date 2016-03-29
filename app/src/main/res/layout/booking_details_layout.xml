@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/booking_confirmation_dropDownLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp16"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingTop="@dimen/dp16"
+        android:paddingRight="@dimen/dp16">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingRight="@dimen/dp14"
+            android:text="Booking Details"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@android:color/white" />
+
+        <ImageView
+
+            android:id="@+id/booking_confirmation_detailsdropdown"
+            android:layout_width="@dimen/dp20"
+            android:layout_height="@dimen/dp20"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/dp10"
+            android:gravity="right"
+            android:paddingLeft="@dimen/dp2"
+            android:src="@drawable/down_arrow_white"
+            android:text="" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/booking_confirmation_detailslayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp60"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dp14"
+            android:paddingRight="@dimen/dp14">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/dp2"
+                android:text="Care Type :"
+                android:textAppearance="?android:textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/booking_confirmation_cartype"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:paddingRight="@dimen/dp2"
+                android:singleLine="false"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp60"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dp14"
+            android:paddingRight="@dimen/dp14">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/dp2"
+                android:text="@string/booking_confiramation_dateandtime"
+                android:textAppearance="?android:textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/booking_confirmation_pickupdatetime"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:paddingRight="@dimen/dp2"
+                android:singleLine="false"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp60"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dp14"
+            android:paddingRight="@dimen/dp14">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/dp2"
+                android:text="Car booked up to : "
+                android:textAppearance="?android:textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/booking_confirmation_bookingupto"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:paddingRight="@dimen/dp2"
+                android:singleLine="false"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp60"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dp14"
+            android:paddingRight="@dimen/dp14">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/dp2"
+                android:text="Trip Type : "
+                android:textAppearance="?android:textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/booking_confirmation_triptype"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:paddingRight="@dimen/dp2"
+                android:singleLine="false"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+

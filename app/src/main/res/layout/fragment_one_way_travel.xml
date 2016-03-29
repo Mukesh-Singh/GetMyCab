@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/dp10"
+    android:paddingRight="@dimen/dp10"
+    android:paddingBottom="@dimen/dp10"
+    android:background="@drawable/bg"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll"
+        android:paddingBottom="@dimen/dp50"
+        android:layout_marginBottom="@dimen/dp10">
+    <include layout="@layout/one_way_trip_layout"/>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:background="@drawable/yellow_rounded_corner_background">
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="?android:attr/borderlessButtonStyle"
+        android:text="Get Me Cab"
+        android:inputType="textCapWords"
+        android:id="@+id/one_way_travel_getmecab"
+        android:textColor="@android:color/black"
+         />
+    </LinearLayout>
+</RelativeLayout>

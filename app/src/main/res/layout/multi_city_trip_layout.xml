@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dp20"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp50"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+            <TextView
+                android:id="@+id/multicity_trip_fromcity"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dp5"
+                android:layout_weight="1"
+                android:background="@drawable/button_bg"
+                android:drawableRight="@drawable/map_pin_icon"
+                android:gravity="center"
+                android:maxLines="2"
+                android:padding="@dimen/dp2"
+                android:text="@string/fromcity"
+
+                />
+
+            <TextView
+                android:id="@+id/multicity_trip_tocity"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_weight="1"
+                android:background="@drawable/button_bg"
+                android:drawableRight="@drawable/map_pin_icon1"
+                android:gravity="center"
+                android:maxLines="2"
+                android:padding="@dimen/dp2"
+                android:text="@string/tocity"
+
+
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/multicity_trip_addmorecity_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp10"
+            android:layout_marginTop="@dimen/dp20"
+            android:orientation="vertical"
+
+            >
+            />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/dp10"
+            android:layout_marginTop="@dimen/dp20"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/multicity_trip_addcity_image"
+                android:layout_width="@dimen/dp40"
+                android:layout_height="@dimen/dp40"
+                android:layout_weight="0.5"
+                android:src="@drawable/add_city_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Click to add more city"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/multicity_trip_remove_image"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_weight="1.5"
+                android:text="Remove"
+                android:textColor="@color/primary" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp50"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+            <TextView
+                android:id="@+id/multicity_trip_date"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dp5"
+                android:layout_weight="1"
+                android:background="@drawable/button_bg"
+                android:drawableRight="@drawable/pickup_time_icon"
+                android:gravity="center"
+                android:maxLines="2"
+                android:padding="@dimen/dp2"
+                android:text="@string/traveldate"
+
+                />
+
+            <TextView
+                android:id="@+id/multicity_trip_time"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_weight="1"
+                android:background="@drawable/button_bg"
+                android:drawableRight="@drawable/time_trevel_icon"
+                android:gravity="center"
+                android:maxLines="2"
+                android:padding="@dimen/dp2"
+                android:text="@string/traveltime"
+
+
+                />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/multicity_trip_travel_duration"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp40"
+            android:layout_marginTop="@dimen/dp20"
+            android:background="@drawable/button_bg"
+            android:drawableRight="@drawable/trevel_duration_icon"
+            android:gravity="left"
+            android:hint="@string/duration"
+            android:inputType="number"
+            android:maxLines="1"
+            android:padding="@dimen/dp10" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

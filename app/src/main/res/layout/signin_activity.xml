@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical">
+    <include layout="@layout/back_button_header"></include>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <ImageView
+        android:layout_width="@dimen/dp120"
+        android:layout_height="@dimen/dp120"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp30"
+        android:src="@drawable/profile_logo"/>
+
+    <!--<include-->
+    <!--android:id="@+id/signin_activity_footer"-->
+    <!--layout="@layout/layout_login_signup_buttons">-->
+
+    <!--</include>-->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/dp10"
+        android:paddingTop="@dimen/dp20"
+        android:weightSum="3"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp50"
+            android:layout_margin="@dimen/dp4"
+            android:layout_weight="1"
+            android:background="@drawable/white_round_corner_background"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dp30"
+                android:layout_height="@dimen/dp30"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp5"
+                android:src="@drawable/mail_icon" />
+
+            <EditText
+                android:id="@+id/signin_acitivity_emailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/white_round_corner_background"
+                android:drawablePadding="@dimen/dp10"
+                android:padding="@dimen/dp5"
+                android:hint="Email Id"
+                android:singleLine="true"
+                android:inputType="textEmailAddress"
+
+                />
+
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp50"
+            android:layout_margin="@dimen/dp4"
+            android:layout_weight="1"
+            android:background="@drawable/white_round_corner_background"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dp30"
+                android:layout_height="@dimen/dp30"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp5"
+                android:src="@drawable/password_icon" />
+
+            <EditText
+                android:id="@+id/signin_acitivity_passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/white_round_corner_background"
+                android:drawablePadding="@dimen/dp10"
+                android:padding="@dimen/dp5"
+                android:hint="Password"
+                android:singleLine="true"
+                android:inputType="textPassword"/>
+
+            />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp50"
+            android:layout_margin="@dimen/dp4"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/white_round_corner_background"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/signin_activity_remembermeChkbox"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:id="@+id/signin_activity_remembermetext"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Remember Me"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp20"
+                android:textColor="@color/white"
+                android:layout_alignBottom="@+id/signin_activity_forgetPassword"
+                android:layout_toRightOf="@+id/signin_activity_remembermeChkbox"
+                 />
+
+            <TextView
+                android:id="@+id/signin_activity_forgetPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawablePadding="@dimen/dp10"
+                android:gravity="right|center_vertical"
+                android:padding="@dimen/dp5"
+                android:text="Forget Password"
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+            <Button
+                android:id="@+id/login_signup_activity_signin_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp4"
+                android:layout_weight="1"
+                android:background="@drawable/white_round_corner_background"
+                android:text="SIGN IN"
+                style="?android:attr/borderlessButtonStyle"
+                />
+
+            <Button
+                android:id="@+id/login_signup_activity_signup_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp4"
+                android:layout_weight="1"
+                android:background="@drawable/white_round_corner_background"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="SIGN UP" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
+    </ScrollView>
+</LinearLayout>

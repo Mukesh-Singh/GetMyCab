@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:padding="@dimen/dp20">
+
+    <ScrollView
+        android:id="@+id/out_station_travel_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/outstatinfooter">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/out_station_radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <RadioButton
+                    android:id="@+id/out_station_round_trip_radio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Round Trip"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@android:color/white"
+                    android:checked="true"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/out_station_multicity_radio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Multi City"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@android:color/white"
+
+                    />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/out_station_round_trip_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <include layout="@layout/one_way_trip_layout"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/out_station_multicity_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+
+                <include layout="@layout/multi_city_trip_layout"
+
+
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/outstatinfooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/yellow_rounded_corner_background"
+        android:layout_marginTop="@dimen/dp14"
+        >
+    <Button
+        android:id="@+id/out_station_multicity_getmecabbutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get Me Cab"
+        style="?android:attr/borderlessButtonStyle"
+        android:inputType="textCapWords"
+        />
+    </LinearLayout>
+
+
+</RelativeLayout>

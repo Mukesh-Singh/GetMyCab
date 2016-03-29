@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg">
+    <include layout="@layout/back_button_header"
+        />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/dp10"
+        android:paddingLeft="@dimen/dp10"
+        android:paddingRight="@dimen/dp10"
+        android:id="@+id/booking_history_list"
+        android:divider="@drawable/booking_history_line"
+        android:dividerHeight="@dimen/dp2"
+        android:scrollbars="none"
+        >
+
+
+    </ListView>
+
+</LinearLayout>
