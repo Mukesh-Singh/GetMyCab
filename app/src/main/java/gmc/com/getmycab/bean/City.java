@@ -23,4 +23,25 @@ public class City {
     }
 
     private String cityName;
+
+    @Override
+    public String toString() {
+        return this.cityName;
+    }
+
+    @Override
+    public int hashCode() {
+        return cityName.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof City) {
+            City c=(City)o;
+
+            if (cityName.toLowerCase().equalsIgnoreCase(c.getCityName().toLowerCase().trim()))
+                return true;
+        }
+        return false;
+    }
 }

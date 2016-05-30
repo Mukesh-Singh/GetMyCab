@@ -18,7 +18,7 @@
             android:weightSum="2">
 
 
-            <TextView
+            <AutoCompleteTextView
                 android:id="@+id/multicity_trip_fromcity"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -26,28 +26,45 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_bg"
                 android:drawableRight="@drawable/map_pin_icon"
-                android:gravity="center"
                 android:maxLines="2"
-                android:padding="@dimen/dp2"
-                android:text="@string/fromcity"
+                android:gravity="left|center_vertical"
+                android:hint="@string/fromcity"
+                android:padding="@dimen/dp10"
+                android:textSize="@dimen/text_size_18sp"
+                android:textColor="@color/light_black"
 
                 />
-
-            <TextView
-                android:id="@+id/multicity_trip_tocity"
+            <FrameLayout
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                >
+
+            <AutoCompleteTextView
+                android:id="@+id/multicity_trip_tocity"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dp5"
-                android:layout_weight="1"
                 android:background="@drawable/button_bg"
                 android:drawableRight="@drawable/map_pin_icon1"
-                android:gravity="center"
+                android:gravity="left|center_vertical"
                 android:maxLines="2"
-                android:padding="@dimen/dp2"
-                android:text="@string/tocity"
+                android:hint="@string/tocity"
+                android:padding="@dimen/dp10"
+                android:textSize="@dimen/text_size_18sp"
+                android:textColor="@color/light_black"
 
 
                 />
+                />
+                <ProgressBar
+                    android:id="@+id/multicity_trip_travel_to_city_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:visibility="gone"
+                    />
+            </FrameLayout>
 
         </LinearLayout>
 
@@ -120,10 +137,12 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_bg"
                 android:drawableRight="@drawable/pickup_time_icon"
-                android:gravity="center"
+                android:gravity="left"
                 android:maxLines="2"
-                android:padding="@dimen/dp2"
-                android:text="@string/traveldate"
+                android:hint="@string/traveldate"
+                android:padding="@dimen/dp10"
+                android:textSize="@dimen/text_size_18sp"
+                android:textColor="@color/light_black"
 
                 />
 
@@ -135,10 +154,12 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_bg"
                 android:drawableRight="@drawable/time_trevel_icon"
-                android:gravity="center"
+                android:gravity="left"
                 android:maxLines="2"
-                android:padding="@dimen/dp2"
-                android:text="@string/traveltime"
+                android:hint="@string/traveltime"
+                android:padding="@dimen/dp10"
+                android:textSize="@dimen/text_size_18sp"
+                android:textColor="@color/light_black"
 
 
                 />
@@ -156,7 +177,10 @@
             android:hint="@string/duration"
             android:inputType="number"
             android:maxLines="1"
-            android:padding="@dimen/dp10" />
+            android:padding="@dimen/dp10"
+            android:textSize="@dimen/text_size_18sp"
+            android:textColor="@color/light_black"
+            />
 
 
     </LinearLayout>

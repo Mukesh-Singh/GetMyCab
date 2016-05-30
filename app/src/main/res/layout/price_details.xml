@@ -74,7 +74,8 @@
                 android:paddingTop="@dimen/dp3">
 
                 <TextView
-
+                    android:id="@+id/price_details_fareKm"
+                    android:visibility="visible"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -91,7 +92,7 @@
                     android:gravity="left|center_vertical"
                     android:paddingRight="@dimen/dp2"
                     android:singleLine="false"
-                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@android:color/black" />
 
             </LinearLayout>
@@ -114,7 +115,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:paddingRight="@dimen/dp2"
-                    android:text="Estimated Km Charged :"
+                    android:text="Estimated Km :"
                     android:textAppearance="?android:textAppearanceMedium" />
 
                 <TextView
@@ -126,7 +127,7 @@
                     android:gravity="left|center_vertical"
                     android:paddingRight="@dimen/dp2"
                     android:singleLine="false"
-                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@android:color/black" />
 
             </LinearLayout>
@@ -172,7 +173,7 @@
             android:layout_marginTop="@dimen/dp3"
             android:gravity="center_vertical"
             android:paddingRight="@dimen/dp2"
-            android:text="Additional Cost on Actual Basis :"
+            android:text="Additional Cost and Notes:"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@android:color/black"
             android:textSize="18sp" />

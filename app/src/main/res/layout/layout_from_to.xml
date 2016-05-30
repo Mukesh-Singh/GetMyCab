@@ -16,34 +16,49 @@
         >
 
 
-        <TextView
+        <AutoCompleteTextView
             android:id="@+id/addmore_fromcity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/down_arrow_with_bg"
+            android:background="@drawable/button_bg"
             android:layout_weight="1"
             android:hint="From"
-            android:padding="@dimen/dp2"
-            android:gravity="center"
+            android:gravity="left|center_vertical"
             android:layout_marginRight="@dimen/dp5"
             android:maxLines="2"
+            android:editable="false"
+            android:padding="@dimen/dp10"
+            android:textSize="@dimen/text_size_18sp"
+            android:textColor="@color/light_black"
 
             />
-        <TextView
-            android:id="@+id/addmore_tocity"
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/down_arrow_with_bg"
             android:layout_weight="1"
-            android:text="To"
-            android:gravity="center"
+            >
+        <AutoCompleteTextView
+            android:id="@+id/addmore_tocity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_bg"
+            android:hint="To"
+            android:gravity="left|center_vertical"
             android:layout_marginLeft="@dimen/dp5"
-            android:padding="@dimen/dp2"
             android:maxLines="2"
-
-
+            android:padding="@dimen/dp10"
+            android:textSize="@dimen/text_size_18sp"
+            android:textColor="@color/light_black"
 
             />
+            <ProgressBar
+                android:id="@+id/addmore_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:visibility="gone"
+                />
+        </FrameLayout>
 
     </LinearLayout>
 </LinearLayout>

@@ -7,10 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -18,6 +22,7 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gmc.com.getmycab.R;
@@ -28,6 +33,7 @@ import gmc.com.getmycab.activity.CabSearchResultActivity;
 import gmc.com.getmycab.asyntask.BaseAsyncTask;
 import gmc.com.getmycab.bean.Car;
 import gmc.com.getmycab.bean.City;
+import gmc.com.getmycab.ccavenue.utility.Constants;
 import gmc.com.getmycab.networkapi.ApiCaller;
 import gmc.com.getmycab.networkapi.ApiServiceUrl;
 import gmc.com.getmycab.networkapi.CreateJsonFor;
@@ -42,11 +48,13 @@ public class OutStationTravelFragment extends Fragment implements View.OnClickLi
     private RadioButton mRoundtripRadio, mMulticityRadio;
     private Button getMyCabButton;
 
-    private TextView mRoundTripFromCity, mRoundTripToCity, mRoundTripTravelDate, mRoundTripTravelTime;
+    private AutoCompleteTextView mRoundTripFromCity, mRoundTripToCity;
+    private TextView  mRoundTripTravelDate, mRoundTripTravelTime;
     EditText mRoundTripTravelDuration;
 
 
-    private TextView mMulticityFromCtity, mMulticityToCity, mMulticityTravelDate, mMulticityTravelTime;
+    private AutoCompleteTextView mMulticityFromCtity, mMulticityToCity;
+    private TextView  mMulticityTravelDate, mMulticityTravelTime;
     EditText mMulticityTravelDuration;
     ImageView mMulticityAddMore;
     Button mRemovecity;
@@ -63,6 +71,24 @@ public class OutStationTravelFragment extends Fragment implements View.OnClickLi
     private JSONObject jsonObject;
 
 
+    private ProgressBar mRoundTripDestiProgress,mMultiDestProgress;
+
+    //for round trip
+    private City mSelectedSourceCityForRound, mSelectedDestinatinCityForRound;
+    private ArrayAdapter<City> destAdapterForRound;
+    private List<City> mDestinationCityListRound = new ArrayList<>();
+
+
+    private City mSelectedSourceCityMultiCity, mSelectedDestinatinCityMultiCity;
+    private ArrayAdapter<City> destAdapterMultiCity;
+    private List<City> mDestinationCityListMultiCity = new ArrayList<>();
+
+
+
+//    private ArrayAdapter<City> destAdapter;
+//    private List<City> mDestinationCityList = new ArrayList<>();
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.out_station_travel, container, false);
@@ -70,17 +96,65 @@ public class OutStationTravelFragment extends Fragment implements View.OnClickLi
         return view;
     }
 
+
+    private City getCityObjectFor(List<City> list,String cityName) {
+        if (list==null || list.size()<0)
+            return null;
+
+        City city = new City();
+        city.setCityName(cityName);
+        if(list.contains(city)) {
+            int index=list.indexOf(city);
+            if (index>=0) {
+                return list.get(index);
+            }
+        }
+
+        return null;
+    }
+
+//    private City getCityObjectForMulti(List<City> list,String cityName) {
+//        if (list==null || list.size()<0)
+//            return null;
+//
+//        City city = new City();
+//        city.setCityName(cityName);
+//        if(AppConstants.multiCitySource.contains(city)) {
+//            int index=AppConstants.multiCitySource.indexOf(city);
+//            if (index>=0) {
+//                return list.get(index);
+//            }
+//        }
+//
+//        return null;
+//    }
+
+
+
+
     private void initUi(View view) {
         mRadioGroup = (RadioGroup) view.findViewById(R.id.out_station_radioGroup);
         mRoundtripRadio = (RadioButton) view.findViewById(R.id.out_station_round_trip_radio);
         mMulticityRadio = (RadioButton) view.findViewById(R.id.out_station_multicity_radio);
-        mRoundTripFromCity = (TextView) view.findViewById(R.id.one_way_travel_fromcity);
+        mRoundTripFromCity = (AutoCompleteTextView) view.findViewById(R.id.one_way_travel_fromcity);
         //setClickListnerOnDropDown(mRoundTripFromCity, CITY);
-        mRoundTripFromCity.setOnClickListener(this);
+        //mRoundTripFromCity.setOnClickListener(this);
 
-        mRoundTripToCity = (TextView) view.findViewById(R.id.one_way_travel_tocity);
+        mRoundTripToCity = (AutoCompleteTextView) view.findViewById(R.id.one_way_travel_tocity);
         //setClickListnerOnDropDown(mRoundTripToCity, CITY);
-        mRoundTripToCity.setOnClickListener(this);
+        //mRoundTripToCity.setOnClickListener(this);
+
+        ArrayAdapter<City> adapter =
+                new ArrayAdapter<City>(getActivity(), android.R.layout.simple_list_item_1, AppConstants.roundTripSource);
+        mRoundTripFromCity.setAdapter(adapter);
+
+        mRoundTripFromCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mSelectedSourceCityForRound = getCityObjectFor(AppConstants.roundTripSource,adapterView.getItemAtPosition(i).toString());
+                callCityListForRoundTripDestination();
+            }
+        });
 
         mRoundTripTravelDate = (TextView) view.findViewById(R.id.one_way_travel_date);
         setClickListnerOnDropDown(mRoundTripTravelDate, DATE);
@@ -89,13 +163,25 @@ public class OutStationTravelFragment extends Fragment implements View.OnClickLi
         mRoundTripTravelDuration = (EditText) view.findViewById(R.id.one_way_travel_duration);
         mRoundTripTravelDuration.setVisibility(View.VISIBLE);
 
-        mMulticityFromCtity = (TextView) view.findViewById(R.id.multicity_trip_fromcity);
-        //setClickListnerOnDropDown(mMulticityFromCtity, CITY);
-        mMulticityFromCtity.setOnClickListener(this);
+        mMulticityFromCtity = (AutoCompleteTextView) view.findViewById(R.id.multicity_trip_fromcity);
 
-        mMulticityToCity = (TextView) view.findViewById(R.id.multicity_trip_tocity);
-        //setClickListnerOnDropDown(mMulticityToCity, CITY);
-        mMulticityToCity.setOnClickListener(this);
+        //mMulticityFromCtity.setOnClickListener(this);
+
+
+        ArrayAdapter<City> adapterMulti =
+                new ArrayAdapter<City>(getActivity(), android.R.layout.simple_list_item_1, AppConstants.multiCitySource);
+        mMulticityFromCtity.setAdapter(adapterMulti);
+
+        mMulticityFromCtity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mSelectedSourceCityMultiCity = getCityObjectFor(AppConstants.multiCitySource,adapterView.getItemAtPosition(i).toString());
+                mMulticityFromCtity.setTag(mSelectedSourceCityMultiCity.getCitycod());
+                callCityListForMultiCityTripDestination();
+            }
+        });
+
+        mMulticityToCity = (AutoCompleteTextView) view.findViewById(R.id.multicity_trip_tocity);
 
         mMulticityTravelDate = (TextView) view.findViewById(R.id.multicity_trip_date);
         setClickListnerOnDropDown(mMulticityTravelDate, DATE);
@@ -111,6 +197,11 @@ public class OutStationTravelFragment extends Fragment implements View.OnClickLi
 
         getMyCabButton = (Button) view.findViewById(R.id.out_station_multicity_getmecabbutton);
         mScrollView=(ScrollView)view.findViewById(R.id.out_station_travel_scrollview);
+
+
+        mRoundTripDestiProgress= (ProgressBar) view.findViewById(R.id.one_way_travel_to_city_progress);
+        mMultiDestProgress= (ProgressBar) view.findViewById(R.id.multicity_trip_travel_to_city_progress);
+
 
 
         getMyCabButton.setOnClickListener(this);
@@ -136,97 +227,151 @@ public class OutStationTravelFragment extends Fragment implements View.OnClickLi
         });
     }
 
+    private void setDestinationAdapterForRound(final List<City>destList){
+        mDestinationCityListRound.clear();
+        if (destList!=null && destList.size()>0) {
+            mDestinationCityListRound.addAll(destList);
+        }
+        else
+            return;
 
-    private void  callCityListForRoundTripSource()
-    {
-        if (AppConstants.roundTripSource==null || AppConstants.roundTripSource.size()==0) {
-            ServiceUtil.callCityListServies(getActivity(), CreateJsonFor.roundTrip(""), new BaseAsyncTask.ServiceCallable() {
+            destAdapterForRound = new ArrayAdapter<City>(getActivity(), android.R.layout.simple_list_item_1, mDestinationCityListRound);
+            mRoundTripToCity.setAdapter(destAdapterForRound);
+            mRoundTripToCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onServiceResultSuccess(String url, boolean success, String message, String response) {
-                    AppConstants.roundTripSource= ResponseParser.parseIntoCityList(response);
-                    DialogUtil.showCityListDialog(getActivity(),AppConstants.roundTripSource,mRoundTripFromCity);
-                }
-
-                @Override
-                public void onServiceResultFailure(String url, String error) {
-                    DialogUtil.showServerErrorDialog(getActivity());
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    mSelectedDestinatinCityForRound = mDestinationCityListRound.get(i);
                 }
             });
-        }
-        else {
-            DialogUtil.showCityListDialog(getActivity(), AppConstants.roundTripSource, mRoundTripFromCity);
-        }
+
+
+
     }
+
+
+    private void setDestinationAdapterForMultiCity(final List<City>destList){
+        mDestinationCityListMultiCity.clear();
+        if (destList!=null && destList.size()>0) {
+            mDestinationCityListMultiCity.addAll(destList);
+        }
+        else
+            return;
+
+            destAdapterMultiCity = new ArrayAdapter<City>(getActivity(), android.R.layout.simple_list_item_1, mDestinationCityListMultiCity);
+            mMulticityToCity.setAdapter(destAdapterMultiCity);
+            mMulticityToCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    mSelectedDestinatinCityMultiCity = getCityObjectFor(destList,adapterView.getItemAtPosition(i).toString());
+                    mMulticityToCity.setTag(mSelectedDestinatinCityMultiCity.getCitycod());
+                    removeAllMoreCities();
+                    //addmoreCity();
+
+                }
+            });
+
+
+
+    }
+
+    private void setDestinationAdapterForMultiCityAddMore( final List<City> destinationList,final AutoCompleteTextView textView){
+        ArrayAdapter destAdapterMultiCity = new ArrayAdapter<City>(getActivity(), android.R.layout.simple_list_item_1, destinationList);
+        textView.setAdapter(destAdapterMultiCity);
+        textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    City temp = getCityObjectFor(destinationList,adapterView.getItemAtPosition(i).toString());
+                    textView.setTag(temp);
+                    addmoreCity();
+
+                }
+            });
+
+
+    }
+
+
+
+
 
     private void  callCityListForRoundTripDestination()
     {
-        if (mRoundTripFromCity.getTag()!=null) {
-            ServiceUtil.callCityListServies(getActivity(), CreateJsonFor.roundTrip(mRoundTripFromCity.getTag().toString()), new BaseAsyncTask.ServiceCallable() {
+            mRoundTripDestiProgress.setVisibility(View.VISIBLE);
+            ServiceUtil.callCityListServies(getActivity(),false, CreateJsonFor.roundTrip(mSelectedSourceCityForRound.getCitycod()), new BaseAsyncTask.ServiceCallable() {
                 @Override
                 public void onServiceResultSuccess(String url, boolean success, String message, String response) {
                     List<City> destinationList = ResponseParser.parseIntoCityList(response);
-                    DialogUtil.showCityListDialog(getActivity(), destinationList, mRoundTripToCity);
+                    mRoundTripDestiProgress.setVisibility(View.GONE);
+                    setDestinationAdapterForRound(destinationList);
                 }
 
                 @Override
                 public void onServiceResultFailure(String url, String error) {
                     DialogUtil.showServerErrorDialog(getActivity());
+                    mRoundTripDestiProgress.setVisibility(View.GONE);
                 }
             });
-        }
-        else {
-            DialogUtil.showOk(getActivity(), "Select source city first");
-        }
+
     }
 
 
 
-
-    private void  callCityListForMultiCityTripSource()
+    private void  callCityListForMultiCityTripDestination()
     {
-        if (AppConstants.multiCitySource==null || AppConstants.multiCitySource.size()==0) {
-            ServiceUtil.callCityListServies(getActivity(), CreateJsonFor.roundTrip(""), new BaseAsyncTask.ServiceCallable() {
-                @Override
-                public void onServiceResultSuccess(String url, boolean success, String message, String response) {
-                    AppConstants.multiCitySource= ResponseParser.parseIntoCityList(response);
-                    DialogUtil.showCityListDialog(getActivity(),AppConstants.multiCitySource,mMulticityFromCtity);
-                }
+        //if (mRoundTripFromCity.getTag()!=null) {
+        mMultiDestProgress.setVisibility(View.VISIBLE);
+        ServiceUtil.callCityListServies(getActivity(),false, CreateJsonFor.multiCity(mSelectedSourceCityMultiCity.getCitycod()), new BaseAsyncTask.ServiceCallable() {
+            @Override
+            public void onServiceResultSuccess(String url, boolean success, String message, String response) {
+                List<City> destinationList = ResponseParser.parseIntoCityList(response);
+                //DialogUtil.showCityListDialog(getActivity(), destinationList, mRoundTripToCity);
+                mMultiDestProgress.setVisibility(View.GONE);
+                setDestinationAdapterForMultiCity(destinationList);
 
-                @Override
-                public void onServiceResultFailure(String url, String error) {
-                    DialogUtil.showServerErrorDialog(getActivity());
-                }
-            });
-        }
-        else {
-            DialogUtil.showCityListDialog(getActivity(), AppConstants.multiCitySource, mMulticityFromCtity);
-        }
+            }
+
+            @Override
+            public void onServiceResultFailure(String url, String error) {
+                DialogUtil.showServerErrorDialog(getActivity());
+                mMultiDestProgress.setVisibility(View.GONE);
+            }
+        });
+
     }
+
+
+
 
     private void removeAllMoreCities(){
-        for (int i=0;i<mMulticityAddMoreViewLL.getChildCount();i++){
-            mRemovecity.performClick();
+        for (int i=mMulticityAddMoreViewLL.getChildCount()-1;i>=0;i--){
+            //mRemovecity.performClick();
+            mMulticityAddMoreViewLL.removeViewAt(i);
         }
     }
 
 
-    private void  callCityListForMultiCityDestination(TextView sourceText,final TextView destinationText, final boolean addmore)
+    private void  callCityListForMultiCityDestination(TextView sourceText,final AutoCompleteTextView destinationText, final boolean addmore,final ProgressBar progressBar)
     {
         if (sourceText.getTag()!=null) {
-            ServiceUtil.callCityListServies(getActivity(), CreateJsonFor.roundTrip(sourceText.getTag().toString()), new BaseAsyncTask.ServiceCallable() {
+            progressBar.setVisibility(View.VISIBLE);
+            ServiceUtil.callCityListServies(getActivity(), CreateJsonFor.multiCity(sourceText.getTag().toString()), new BaseAsyncTask.ServiceCallable() {
                 @Override
                 public void onServiceResultSuccess(String url, boolean success, String message, String response) {
                     List<City> destinationList = ResponseParser.parseIntoCityList(response);
-                    if(!addmore) {
-                        DialogUtil.showCityListDialog(getActivity(), destinationList, destinationText);
-                        removeAllMoreCities();
+                    progressBar.setVisibility(View.GONE);
+                    if(addmore) {
+                        //DialogUtil.showCityListDialog(getActivity(), destinationList, destinationText);
+                        //removeAllMoreCities();
+                        setDestinationAdapterForMultiCityAddMore(destinationList,destinationText);
                     }
-                    else
-                        DialogUtil.showCityListDialogAndAddmore(getActivity(), destinationList, destinationText, OutStationTravelFragment.this);
+//                    else
+//                        DialogUtil.showCityListDialogAndAddmore(getActivity(), destinationList, destinationText, OutStationTravelFragment.this);
                 }
 
                 @Override
                 public void onServiceResultFailure(String url, String error) {
+                    progressBar.setVisibility(View.GONE);
                     DialogUtil.showServerErrorDialog(getActivity());
                 }
             });
@@ -255,16 +400,16 @@ public class OutStationTravelFragment extends Fragment implements View.OnClickLi
 
     private boolean isValidRoundTrip() {
         Resources resources = getResources();
-        if (mRoundTripFromCity.getText().toString().equalsIgnoreCase(resources.getString(R.string.fromcity))) {
+        if (mRoundTripFromCity.getText().toString().length()<=0) {
             AppUtil.showToastMessage(resources.getString(R.string.err_fromcity));
             return false;
-        } else if (mRoundTripToCity.getText().toString().equalsIgnoreCase(resources.getString(R.string.tocity))) {
+        } else if (mRoundTripToCity.getText().toString().length()<=0) {
             AppUtil.showToastMessage(resources.getString(R.string.err_tocity));
             return false;
-        } else if (mRoundTripTravelDate.getText().toString().equalsIgnoreCase(resources.getString(R.string.traveldate))) {
+        } else if (mRoundTripTravelDate.getText().toString().length()<=0) {
             AppUtil.showToastMessage(resources.getString(R.string.err_traveldate));
             return false;
-        } else if (mRoundTripTravelTime.getText().toString().equalsIgnoreCase(resources.getString(R.string.traveltime))) {
+        } else if (mRoundTripTravelTime.getText().toString().length()<=0) {
             AppUtil.showToastMessage(resources.getString(R.string.err_traveltime));
             return false;
         } else if (mRoundTripTravelDuration.getText().toString().length() <= 0) {
@@ -277,16 +422,16 @@ public class OutStationTravelFragment extends Fragment implements View.OnClickLi
     private boolean isValidMultiCity() {
 
         Resources resources = getResources();
-        if (mMulticityFromCtity.getText().toString().equalsIgnoreCase(resources.getString(R.string.fromcity))) {
+        if (mMulticityFromCtity.getText().toString().length()<=0) {
             AppUtil.showToastMessage(resources.getString(R.string.err_fromcity));
             return false;
-        } else if (mMulticityToCity.getText().toString().equalsIgnoreCase(resources.getString(R.string.tocity))) {
+        } else if (mMulticityToCity.getText().toString().length()<=0) {
             AppUtil.showToastMessage(resources.getString(R.string.err_tocity));
             return false;
-        } else if (mMulticityTravelDate.getText().toString().equalsIgnoreCase(resources.getString(R.string.traveldate))) {
+        } else if (mMulticityTravelDate.getText().toString().length()<=0) {
             AppUtil.showToastMessage(resources.getString(R.string.err_traveldate));
             return false;
-        } else if (mMulticityTravelTime.getText().toString().equalsIgnoreCase(resources.getString(R.string.traveltime))) {
+        } else if (mMulticityTravelTime.getText().toString().length()<=0) {
             AppUtil.showToastMessage(resources.getString(R.string.err_traveltime));
             return false;
         } else if (mMulticityTravelDuration.getText().toString().length() <= 0) {
@@ -319,16 +464,16 @@ public class OutStationTravelFragment extends Fragment implements View.OnClickLi
         //New
 
         else if (v.getId()==mRoundTripFromCity.getId()){
-            callCityListForRoundTripSource();
+            //callCityListForRoundTripSource();
         }
         else if (v.getId()==mRoundTripToCity.getId()){
-            callCityListForRoundTripDestination();
+            //callCityListForRoundTripDestination();
         }
         else if (v.getId()==mMulticityFromCtity.getId()){
-            callCityListForMultiCityTripSource();
+            //callCityListForMultiCityTripSource();
         }
         else if (v.getId()==mMulticityToCity.getId()){
-            callCityListForMultiCityDestination(mMulticityFromCtity,mMulticityToCity,false);
+            //callCityListForMultiCityDestination(mMulticityFromCtity,mMulticityToCity,false);
         }
 
 
@@ -359,20 +504,22 @@ public class OutStationTravelFragment extends Fragment implements View.OnClickLi
 
             View view = ((LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE)).inflate(R.layout.layout_from_to, null);
             final TextView fromCity = (TextView) view.findViewById(R.id.addmore_fromcity);
-            final TextView toCity = (TextView) view.findViewById(R.id.addmore_tocity);
+            final AutoCompleteTextView toCity = (AutoCompleteTextView) view.findViewById(R.id.addmore_tocity);
+            final ProgressBar progressBar=(ProgressBar)view.findViewById(R.id.addmore_progress);
             fromCity.setText(fromcity);
             fromCity.setTag(fromCityTag);
 
             toCity.setText(mMulticityFromCtity.getText().toString());
             toCity.setTag(mMulticityFromCtity.getTag().toString());
+            callCityListForMultiCityDestination(fromCity, toCity,true,progressBar);
 
 
-            toCity.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callCityListForMultiCityDestination(fromCity, toCity,true);
-                }
-            });
+//            toCity.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    callCityListForMultiCityDestination(fromCity, toCity,true);
+//                }
+//            });
 
 
             mMulticityAddMoreViewLL.addView(view, mMulticityAddMoreViewLL.getChildCount());
@@ -493,7 +640,9 @@ public class OutStationTravelFragment extends Fragment implements View.OnClickLi
                     saveDateTime();
                     AppUtil.savePreference(AppConstants.CAB_SEARCH_RESULT_JSON, response);
                     AppUtil.savePreference(AppConstants.BOOKING_QUERY_JSON,jsonObject.toString());
-                    startActivity(new Intent(getActivity(), CabSearchResultActivity.class));
+                    Intent outstation=new Intent(getActivity(), CabSearchResultActivity.class);
+                    outstation.putExtra(Constants.EXTRA_IS_ONE_WAY,false);
+                    startActivity(outstation);
                 }
             }
         }

@@ -1,8 +1,5 @@
 package gmc.com.getmycab.Utils;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,8 +11,8 @@ import android.widget.Toast;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
+import gmc.com.getmycab.bean.Car;
 import gmc.com.getmycab.gps.GpsTracker;
 
 /**
@@ -140,6 +137,71 @@ public class AppUtil {
     }
 
 
+    public static String  getAdditionalCostTextForOutStation(Car car){
+
+        String tem="";
+        int day=AppUtil.getPreferenceInt(AppConstants.CAB_SEARCH_DURATION);
+        String source=AppUtil.getPreference(AppConstants.CAB_SEARCH_FROM_TO);
+        if (source!=null) {
+             if (source.contains("Manali") || source.contains("manali") || source.contains("Mussoorie")||source.contains("mussoorie")||source.contains("Nandi")||source.contains("nandi"))
+                tem = "*     Green tax or any other tax on actual basis\n";
+        }
+       tem=tem+"*     Driver Allowance (DA) Rs. "+getReadableString(String.valueOf(Integer.parseInt(car.getPriceDetails().getBaseDriverCharge())*day))+"\n"+
+                   "*     DA for night if drives between 10pm-5am Rs 250 per night.\n"+
+                   "*     State Tax (State Permit) on actual basis whenever enter new state\n"+
+                   "*     Any Toll tax or parking charges on actual basis.";
+
+        return tem;
+    }
+
+    public static String  getNoteForOutStation(Car car){
+        String tem="*    Driver would take care of his food and stay\n"+
+                "*     Min. charge per day is "+car.getPriceDetails().getMinimumKmPerDay()+" kms\n"+
+                "*     One day means one calendar day (12am - 11:59pm)\n"+
+                "*     AC will be switched off in hilly areas\n"+
+                "*     Local travel is not allowed in source city";
+
+        return tem;
+    }
+
+
+    public static String  getAdditionalCostTextForOneWay(Car car){
+        String tem="";
+        String source=AppUtil.getPreference(AppConstants.CAB_SEARCH_FROM_TO);
+        if (source!=null) {
+            if (source.contains("Agra") || source.contains("agra"))
+                tem = "*    Yamuna Express Highway Toll Rs 360/- one side\n";
+            else if (source.contains("Manali") || source.contains("manali") || source.contains("Mussoorie")||source.contains("mussoorie")||source.contains("Nandi")||source.contains("nandi"))
+                tem = "*     Green tax on actual basis\n";
+            else if (source.contains("umbai") && source.contains("une") )
+                tem = "*     Above price is applicable between Mumbai Airport and Pune Railway Station. Additional price may be charged for other pick / drop locations from / in both the cities that may vary from Rs 200 to Rs 800 depending on the distance\n";
+        }
+
+
+        tem=  tem+  "*     Any parking or airport entry charges\n"+
+                "*     Extra per pick up or drop shall be charged @ Rs 250/- within 10kms\n"+
+                "*     Waiting charges Rs 250/- per hour\n";
+
+
+        return tem;
+    }
+
+    public static String  getNoteForOneWay(Car car){
+        String tem="*    AC will be switched off in hilly areas\n"+
+                "*     Local travel is not allowed in source city\n";
+
+        return tem;
+    }
+
+
+
+
+    private static String getReadableString(String str){
+        if (str==null || str.length()==0)
+            return "0";
+        else
+            return str;
+    }
 
 
 }

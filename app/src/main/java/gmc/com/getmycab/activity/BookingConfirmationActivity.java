@@ -28,11 +28,6 @@ import gmc.com.getmycab.asyntask.BaseAsyncTask;
 import gmc.com.getmycab.base.BaseActivityWithBackHeader;
 import gmc.com.getmycab.bean.BookingBean;
 import gmc.com.getmycab.bean.Car;
-import gmc.com.getmycab.bean.StateData;
-import gmc.com.getmycab.ccavenue.CcAvenueConstants;
-import gmc.com.getmycab.ccavenue.activity.*;
-import gmc.com.getmycab.ccavenue.utility.AvenuesParams;
-import gmc.com.getmycab.ccavenue.utility.ServiceUtility;
 import gmc.com.getmycab.networkapi.ApiCaller;
 import gmc.com.getmycab.networkapi.ApiServiceUrl;
 import gmc.com.getmycab.parser.ResponseParser;
@@ -88,46 +83,68 @@ public class BookingConfirmationActivity  extends BaseActivityWithBackHeader imp
 
     }
 
-    private String getCalCulatedPrice(){
-        try {
-            int duration = AppUtil.getPreferenceInt(AppConstants.CAB_SEARCH_DURATION);
-            int baseP = Integer.parseInt(car.getPriceDetails().getBasePrice());
-            int da=Integer.parseInt(car.getPriceDetails().getBaseDriverCharge());
-            int totalDA=(duration*da);
-            int DAPluseBasePrice=baseP+totalDA;
-            double serviceTax=5.8;
-            double tax= ((DAPluseBasePrice*serviceTax)/100);
-            int statTax=0;
-            if (car.getStateTaxDetails().getStateTax()!=null && !car.getStateTaxDetails().getStateTax().isEmpty())
-                statTax=Integer.parseInt(car.getStateTaxDetails().getStateTax());
-            Double total= DAPluseBasePrice+tax+statTax;
+//    private String getCalCulatedPrice(){
+//        try {
+//            int duration = AppUtil.getPreferenceInt(AppConstants.CAB_SEARCH_DURATION);
+//            int baseP = Integer.parseInt(car.getPriceDetails().getBasePrice());
+//            int da=Integer.parseInt(car.getPriceDetails().getBaseDriverCharge());
+//            int totalDA=(duration*da);
+//            int DAPluseBasePrice=baseP+totalDA;
+//            double serviceTax=5.8;
+//            double tax= ((DAPluseBasePrice*serviceTax)/100);
+//            int statTax=0;
+//            if (car.getStateTaxDetails().getStateTax()!=null && !car.getStateTaxDetails().getStateTax().isEmpty())
+//                statTax=Integer.parseInt(car.getStateTaxDetails().getStateTax());
+//            Double total= DAPluseBasePrice+tax+statTax;
+//
+//            return String.valueOf(total.intValue());
+//
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return car.getPriceDetails().getBasePrice();
+//    }
 
-            return String.valueOf(total.intValue());
+    private String getPriceForOutStation(){
+//        int duration = AppUtil.getPreferenceInt(AppConstants.CAB_SEARCH_DURATION);
+//        int baseP = Integer.parseInt(car.getPriceDetails().getBasePrice());
+//        int distance= 1;
+//        try{
+//            distance= (int) Float.parseFloat(car.getPriceDetails().getDistance());
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//            distance= Integer.parseInt(car.getPriceDetails().getDistance());
+//        }
+//
+//        float f=duration*baseP*distance;
+//        return String.valueOf(f);
 
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
         return car.getPriceDetails().getBasePrice();
+
+
     }
 
 
+
     private String getCalCulatedPriceForOneWay(){
-        try {
-            //int duration = AppUtil.getPreferenceInt(AppConstants.CAB_SEARCH_DURATION);
-            int totalP = Integer.parseInt(car.getPriceDetails().getTotalPrice());
-            double serviceTax=5.8;
-            double tax= ((totalP*serviceTax)/100);
-
-            Double total= totalP+tax;
-
-            return String.valueOf(total.intValue());
-
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return car.getPriceDetails().getBasePrice();
+//        try {
+//            //int duration = AppUtil.getPreferenceInt(AppConstants.CAB_SEARCH_DURATION);
+//            int totalP = Integer.parseInt(car.getPriceDetails().getTotalPrice());
+//            double serviceTax=5.8;
+//            double tax= ((totalP*serviceTax)/100);
+//
+//            Double total= totalP+tax;
+//
+//            return String.valueOf(total.intValue());
+//
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return car.getPriceDetails().getBasePrice();
+        return car.getPriceDetails().getTotalPrice();
     }
 
 
@@ -146,8 +163,8 @@ public class BookingConfirmationActivity  extends BaseActivityWithBackHeader imp
                                 android.R.color.black)), 7, spannable.length(),
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 perkmprice.setText(spannable);
-                totalprice.setText("RS. " + getReadableString(/*car.getPriceDetails().getBasePrice())*/getCalCulatedPrice()));
-                totalAmt=Integer.parseInt(/*car.getPriceDetails().getBasePrice()*/getCalCulatedPrice());
+                totalprice.setText("RS. " + getReadableString(/*car.getPriceDetails().getBasePrice())*/getPriceForOutStation()));
+                totalAmt=Integer.parseInt(/*car.getPriceDetails().getBasePrice()*/getPriceForOutStation());
                 //totalbreakpu.setVisibility(View.VISIBLE);
             } else {
                 totalprice.setText("RS. " + getReadableString(/*car.getPriceDetails().getTotalPrice())*/getCalCulatedPriceForOneWay()));
@@ -225,15 +242,9 @@ public class BookingConfirmationActivity  extends BaseActivityWithBackHeader imp
                     cab_fixedcost.setVisibility(View.GONE);
                     farePerkm.setText("Rs. " + getReadableString(car.getPriceDetails().getFare()) + " / Km");
                     estimatedCharge.setText("" + getReadableString(car.getPriceDetails().getDistance() + ""));
-                    String addCost = "*    DA Rs " + getReadableString(car.getPriceDetails().getBaseDriverCharge()) + " per Day " +
-                            "and if he drives between\n"
-                            + "      10pm to 5am then Rs " + getReadableString(car.getPriceDetails().getGmcDriverCharge()) + " per night.\n" +
-                            "*    Service Tax @ 5.80%.\n" +
-                            "*    Toll tax, State tax, Parking charge as \n"
-                            + "      applicable.";//+
-                    //"*    State tax (Estimated State Tax is Rs. " + getReadableString(car.getStateTaxDetails().getStateTax()) + ").";
 
-                    additionalCoset.setText(addCost);
+
+                    additionalCoset.setText(AppUtil.getAdditionalCostTextForOutStation(car));
                     String dist = "";
                     for (int i = 0; i < car.getPriceDetails().getDistanceDetails().size(); i++) {
                         dist = dist + car.getPriceDetails().getDistanceDetails().get(i).getSourceCity() + "    to    " +
@@ -251,44 +262,16 @@ public class BookingConfirmationActivity  extends BaseActivityWithBackHeader imp
                     }
 
 
-//                String fstcity = "";
-//                fstcity=  AppUtil.getPreference(AppConstants.CAB_SEARCH_FROM_TO).split("->")[0].replace("Outstation,","");
-//                if (car.getPriceDetails().getDistanceDetails() != null && car.getPriceDetails().getDistanceDetails().size() > 0)
-//                    fstcity = car.getPriceDetails().getDistanceDetails().get(0).getSourceCity();
-
-                    String note = //"*    Driver Allowance would take care of his food and stay.\n"+
-                            "*    Min. " + getReadableString(car.getPriceDetails().getMinimumKmPerDay()) + " kms charge per day \n"
-                                    + "      from 12 am to 11.59 pm.\n"
-                                    //+ "*    One day means one Calender day (12 midnight to 12 midnight).\n"
-                                    + "*    AC will be switched off in hill areas.\n"
-                                    //+ "*    Local travel will not allowed in " + fstcity + ".\n"
-                                    + "*    Local travel usage is not allowed.\n";
-                    //+ "*    Taxi will not be driven on unpaved roads.";
-
-                    noteText.setText(note);
+                    noteText.setText(AppUtil.getNoteForOutStation(car));
                 } else {
                     //Oneway
                     cab_estimatedkm.setVisibility(View.GONE);
-                    cab_fareperkm.setVisibility(View.GONE);
+                    cab_fareperkm.setVisibility(View.VISIBLE);
+                    findViewById(R.id.price_details_fareKm).setVisibility(View.GONE);
+                    farePerkm.setText("(includes DA, State Tax, Toll and Service Tax)");
                     cab_fixedcost.setVisibility(View.VISIBLE);
-
-                    fixedcosttext.setText("Rs. " + getReadableString(car.getPriceDetails().getTotalPrice()));
-                    String addCost =
-                            "*    Service tax @ 5.80%.\n" +
-                                    "*    Parking charge as applicable.\n" +
-                                    "*    Express highway toll (in case of Delhi Agra drop only)";
-
-
-                    additionalCoset.setText(addCost);
-                    String note = //"*    Extra Pickup / Drop is chargeable at Rs. 500 per point.\n"
-                            "*    AC will be switched off in hilly areas.\n" +
-                                    "*    Extra pick up / drop in certain limit \n" +
-                                    "      shall be charged @ Rs 500 per point."
-                            //+ "*    Taxi will not be driven on unpaved roads.\n"
-                            //+ "*    Extra Pickup / Drop point must be in certain limit"
-                            ;
-
-                    noteText.setText(note);
+                    additionalCoset.setText(AppUtil.getAdditionalCostTextForOneWay(car));
+                    noteText.setText(AppUtil.getNoteForOneWay(car));
 
 //                findViewById(R.id.booking_confirmation_details_cabFareDetails_FarePerKmTitle).setVisibility(View.GONE);
 //                findViewById(R.id.booking_confirmation_details_cabFareDetails_estimatedKmCharged).setVisibility(View.GONE);

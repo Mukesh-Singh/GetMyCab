@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import gmc.com.getmycab.R;
 import gmc.com.getmycab.Utils.AppUtil;
 import gmc.com.getmycab.activity.BookingConfirmationActivity;
-import gmc.com.getmycab.R;
-import gmc.com.getmycab.Utils.AppConstants;
 import gmc.com.getmycab.activity.CabSearchResultActivity;
 import gmc.com.getmycab.bean.Car;
 
@@ -29,11 +27,13 @@ public class CarListAdapter extends BaseAdapter{
     private Context mContext;
     private LayoutInflater mInflater;
     List<Car> carList;
-    public CarListAdapter(Context context, List<Car> carList){
+    boolean isOneWay;
+    public CarListAdapter(Context context, List<Car> carList,boolean isOneWay){
         mContext=context;
         mInflater = (LayoutInflater) this.mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.carList=carList;
+        this.isOneWay=isOneWay;
 
     }
     @Override
@@ -75,11 +75,13 @@ public class CarListAdapter extends BaseAdapter{
             holder.faredetailsLayout=(LinearLayout)convertView.findViewById(R.id.booking_confirmation_price_detailslayout);
             holder.distanceDetailsLayout=(LinearLayout)convertView.findViewById(R.id.layout_distance_details_ll);
             holder.cabfareLayout =(LinearLayout)convertView.findViewById(R.id.cab_fair_details_ll);
-
+            holder.fareperkm_lbl=(TextView)convertView.findViewById(R.id.price_details_fareKm);
             holder.cab_fareperkm=(LinearLayout)convertView.findViewById(R.id.booking_confirmation_details_cabFareDetails_FarePerKmTitle);
             holder.cab_estimatedkm=(LinearLayout)convertView.findViewById(R.id.booking_confirmation_details_cabFareDetails_estimatedKmCharged);
             holder.cab_fixedcost=(LinearLayout)convertView.findViewById(R.id.fixed_cost_layout);
             holder.fixedcosttext=(TextView)convertView.findViewById(R.id.fixed_cost_text);
+
+            holder.outStationViewInclusive=(TextView)convertView.findViewById(R.id.cab_search_result_item_out_station_inclusive);
 
 
             convertView.setTag(holder);
@@ -88,6 +90,9 @@ public class CarListAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
 
         }
+        //if (!isOneWay)
+            holder.outStationViewInclusive.setVisibility(View.VISIBLE);
+
         holder.faredetailsLayout.setVisibility(View.GONE);
         Car car= carList.get(position);
 
@@ -97,21 +102,56 @@ public class CarListAdapter extends BaseAdapter{
         holder.seat.setText(spannable);
 
         String ac= car.getCarDetails().getAcType();
-        String carname=car.getCarDetails().getCarModel();
-        if (ac.equalsIgnoreCase("1")){
-            carname=carname+" (AC)";
-        }
-        else
-            carname=carname+" (NON AC)";
+        if (!isOneWay) {
+            String carname = car.getCarDetails().getCarModel();
 
-        holder.carName.setText(carname);
 
-        if (car.getPriceDetails().getFare()!=null && car.getPriceDetails().getFare().length()>0) {
-            holder.perhorprice.setText("Rs. " + car.getPriceDetails().getFare() + " per km");
-            holder.totalprice.setText("RS. "+car.getPriceDetails().getBasePrice());
+            if (ac.equalsIgnoreCase("1")) {
+                carname = carname + " (AC)";
+            } else
+                carname = carname + " (NON AC)";
+
+            holder.carName.setText(carname);
         }
         else {
-            holder.totalprice.setText("RS. "+car.getPriceDetails().getTotalPrice());
+            String carname ="";
+            if (Integer.parseInt(car.getCarDetails().getNumSeats())<=4){
+                //SEDAN (AC)
+                carname="SEDAN";
+            }
+            else {
+                //SUV (AC)
+                carname="SUV";
+            }
+
+            if (ac.equalsIgnoreCase("1")) {
+                carname = carname + " (AC)";
+            } else
+                carname = carname + " (NON AC)";
+
+            holder.carName.setText(carname);
+
+
+        }
+
+
+
+        if (!isOneWay) {
+
+            if (car.getPriceDetails().getFare() != null && car.getPriceDetails().getFare().length() > 0) {
+                holder.perhorprice.setText("Rs. " + car.getPriceDetails().getFare() + " per km");
+                holder.totalprice.setText("RS. " + getPriceForOutStation(car));
+            } else {
+                holder.totalprice.setText("RS. " +getCalCulatedPriceForOneWay(car));
+            }
+        }
+        else {
+            if (car.getPriceDetails().getFare() != null && car.getPriceDetails().getFare().length() > 0) {
+                holder.perhorprice.setText("Rs. " + car.getPriceDetails().getFare() + " per km");
+                holder.totalprice.setText("RS. " + car.getPriceDetails().getBasePrice());
+            } else {
+                holder.perhorprice.setText("RS. " +getCalCulatedPriceForOneWay(car));
+            }
         }
 
 
@@ -155,6 +195,45 @@ public class CarListAdapter extends BaseAdapter{
         return convertView;
     }
 
+    private String getCalCulatedPriceForOneWay(Car car){
+//        try {
+//            //int duration = AppUtil.getPreferenceInt(AppConstants.CAB_SEARCH_DURATION);
+//            int totalP = Integer.parseInt(car.getPriceDetails().getTotalPrice());
+//            double serviceTax=5.8;
+//            double tax= ((totalP*serviceTax)/100);
+//
+//            Double total= totalP+tax;
+//
+//            return String.valueOf(total.intValue());
+//
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return car.getPriceDetails().getBasePrice();
+        return car.getPriceDetails().getTotalPrice();
+    }
+
+    private String getPriceForOutStation(Car car){
+//        int duration = AppUtil.getPreferenceInt(AppConstants.CAB_SEARCH_DURATION);
+//        int baseP = Integer.parseInt(car.getPriceDetails().getFare());
+//        int distance= 1;
+//        try{
+//            distance= (int) Float.parseFloat(car.getPriceDetails().getDistance());
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//            distance= Integer.parseInt(car.getPriceDetails().getDistance());
+//        }
+//
+//        float f=duration*baseP*distance;
+//        return String.valueOf(f);
+
+        return car.getPriceDetails().getBasePrice();
+
+
+    }
+
 
     private class ViewHolder {
 
@@ -163,10 +242,8 @@ public class CarListAdapter extends BaseAdapter{
         TextView estimatedDistance,fixedcosttext;
         LinearLayout faredetailsLayout,distanceDetailsLayout,cabfareLayout;
         LinearLayout cab_fareperkm,cab_estimatedkm,cab_fixedcost;
-
-
-
-
+        TextView outStationViewInclusive;
+         TextView fareperkm_lbl;
     }
 
 
@@ -180,17 +257,10 @@ public class CarListAdapter extends BaseAdapter{
                 holder.cab_estimatedkm.setVisibility(View.VISIBLE);
                 holder.cab_fareperkm.setVisibility(View.VISIBLE);
                 holder.cab_fixedcost.setVisibility(View.GONE);
+                holder.fareperkm_lbl.setVisibility(View.VISIBLE);
                 holder.farePerkm.setText("Rs. " + getReadableString(car.getPriceDetails().getFare()) + " / Km");
                 holder.estimatedCharge.setText("" + getReadableString(car.getPriceDetails().getDistance() + ""));
-                String addCost = "*    DA Rs " + getReadableString(car.getPriceDetails().getBaseDriverCharge()) + " per Day " +
-                        "and if he drives between\n"
-                        +"      10pm to 5am then Rs " + getReadableString(car.getPriceDetails().getGmcDriverCharge()) + " per night.\n" +
-                        "*    Service Tax @ 5.80%.\n" +
-                        "*    Toll tax, State tax, Parking charge as \n"
-                        +"      applicable." ;//+
-                        //"*    State tax (Estimated State Tax is Rs. " + getReadableString(car.getStateTaxDetails().getStateTax()) + ").";
-
-                holder.additionalCoset.setText(addCost);
+                holder.additionalCoset.setText(AppUtil.getAdditionalCostTextForOutStation(car));
                 String dist = "";
                 for (int i = 0; i < car.getPriceDetails().getDistanceDetails().size(); i++) {
                     dist = dist+car.getPriceDetails().getDistanceDetails().get(i).getSourceCity() + "    to    " +
@@ -208,45 +278,24 @@ public class CarListAdapter extends BaseAdapter{
                 }
 
 
-//                String fstcity = "";
-//                fstcity=  AppUtil.getPreference(AppConstants.CAB_SEARCH_FROM_TO).split("->")[0].replace("Outstation,","");
-//                if (car.getPriceDetails().getDistanceDetails() != null && car.getPriceDetails().getDistanceDetails().size() > 0)
-//                    fstcity = car.getPriceDetails().getDistanceDetails().get(0).getSourceCity();
 
-                String note = //"*    Driver Allowance would take care of his food and stay.\n"+
-                         "*    Min. " + getReadableString(car.getPriceDetails().getMinimumKmPerDay()) + " kms charge per day \n"
-                                 +"      from 12 am to 11.59 pm.\n"
-                        //+ "*    One day means one Calender day (12 midnight to 12 midnight).\n"
-                        + "*    AC will be switched off in hill areas.\n"
-                        //+ "*    Local travel will not allowed in " + fstcity + ".\n"
-                        + "*    Local travel usage is not allowed.\n";
-                        //+ "*    Taxi will not be driven on unpaved roads.";
-
-                holder.noteText.setText(note);
+                holder.noteText.setText(AppUtil.getNoteForOutStation(car));
             }
             else {
                 //Oneway
                 holder.cab_estimatedkm.setVisibility(View.GONE);
-                holder.cab_fareperkm.setVisibility(View.GONE);
+                holder.cab_fareperkm.setVisibility(View.VISIBLE);
+                holder.fareperkm_lbl.setVisibility(View.GONE);
+                holder.farePerkm.setText("(includes DA, State Tax, Toll and Service Tax)");
                 holder.cab_fixedcost.setVisibility(View.VISIBLE);
-
-                holder.fixedcosttext.setText("Rs. "+getReadableString(car.getPriceDetails().getTotalPrice()));
-                String addCost =
-                        "*    Service tax @ 5.80%.\n" +
-                        "*    Parking charge as applicable.\n" +
-                        "*    Express highway toll (in case of Delhi Agra drop only)";
+                holder.fixedcosttext.setText("Rs. "+getReadableString(getCalCulatedPriceForOneWay(car)));
 
 
-                holder.additionalCoset.setText(addCost);
-                String note = //"*    Extra Pickup / Drop is chargeable at Rs. 500 per point.\n"
-                          "*    AC will be switched off in hilly areas.\n"+
-                          "*    Extra pick up / drop in certain limit \n"+
-                          "      shall be charged @ Rs 500 per point."
-                        //+ "*    Taxi will not be driven on unpaved roads.\n"
-                        //+ "*    Extra Pickup / Drop point must be in certain limit"
-                        ;
 
-                holder.noteText.setText(note);
+                holder.additionalCoset.setText(AppUtil.getAdditionalCostTextForOneWay(car));
+
+
+                holder.noteText.setText(AppUtil.getNoteForOneWay(car));
 
 //                findViewById(R.id.booking_confirmation_details_cabFareDetails_FarePerKmTitle).setVisibility(View.GONE);
 //                findViewById(R.id.booking_confirmation_details_cabFareDetails_estimatedKmCharged).setVisibility(View.GONE);
